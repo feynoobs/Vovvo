@@ -1,0 +1,21 @@
+{
+    "name": "Vovvo",
+    "dockerComposeFile": [
+        "../docker-compose.yml"
+    ],
+    "service": "laravel.test",
+    "workspaceFolder": "/var/www/html",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "neilbrayfield.php-docblocker",
+                "xdebug.php-debug",
+                "bmewburn.vscode-intelephense-client",
+                "mhutchie.git-graph",
+                "donjayamanne.githistory"
+            ],
+            "settings": {
+            }
+        }
+    }
+}
