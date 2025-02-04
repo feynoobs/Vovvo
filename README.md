@@ -1,2 +1,2 @@
 # Vovvo
-Reac勉強用
+React勉強用
