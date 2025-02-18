@@ -1,7 +1,6 @@
 import React from 'react';
 import ReaqctDOM from 'react-dom';
 import { createRoot } from 'react-dom/client';
-import Counter from './ContexSample'
 import {Parent} from './Parent'
 
 const container = document.getElementById('app');

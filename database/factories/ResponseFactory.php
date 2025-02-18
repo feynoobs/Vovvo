@@ -17,7 +17,12 @@ class ResponseFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'thread_id' => fake()->numberBetween(1, 400),
+            'name' => fake()->name(),
+            'email' => fake()->safeEmail(),
+            'uid' => null,
+            'ip' => fake()->ipv4,
+            'message' => fake()->text
         ];
     }
 }
