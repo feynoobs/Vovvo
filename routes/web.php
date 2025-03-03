@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+use App\Models\Group;
+
 Route::get('/', function () {
-    return view('index');
+    dd(Group::find(1)->boards()->get());
 });

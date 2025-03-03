@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use \Illuminate\Database\Eloquent\Relations\HasMany;
+use \Illuminate\Database\Eloquent\Relations\hasMany;
 
 class Group extends Model
 {
@@ -31,8 +31,8 @@ class Group extends Model
         'sequence' => 'int'
     ];
 
-    public function threads(): HasMany
+    public function boards(): hasMany
     {
-        return $this->hasMany(Thread::class);
+        return $this->hasMany(Board::class);
     }
 }
