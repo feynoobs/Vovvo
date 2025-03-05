@@ -12,13 +12,13 @@ class BoardListContoller extends Controller
     public function __invoke(Request $request) : JsonResponse
     {
         $groups = Group::all();
-        $boards = Group::find(1)->boards()->get();
-/*
+        $boards = [];
+
         foreach ($groups as $group) {
             $boards[$group->id]['group'] = $group;
             $boards[$group->id]['boards'] = Group::find($group->id)->boards;
         }
-*/
+
         return response()->json($boards, 200);
     }
 }
