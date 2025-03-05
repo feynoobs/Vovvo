@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Group;
 
 Route::get('/', function () {
-    dd(Group::find(1)->boards()->get());
+    Group::find(2)->boards()->take(1)->get();
+    return view('index');
 });
