@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -32,6 +33,9 @@ class GroupResource extends Resource
         return $table
             ->columns([
                 //
+                TextColumn::make('id')->label('ID')->sortable(),
+                TextColumn::make('name')->label('グループ名')->sortable()->searchable(),
+                TextColumn::make('created_at')->label('作成日時')->dateTime('Y年m月d日 H:i:s'),
             ])
             ->filters([
                 //
