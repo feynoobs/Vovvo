@@ -22,9 +22,19 @@ class GroupResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $seq = Group::getLastSequence();
         return $form
             ->schema([
-                //
+                Forms\Components\Grid::make(1)
+                ->schema([
+                    Forms\Components\Placeholder::make('id')
+                    ->label('ID')
+                    ->content(fn ($record) => $record?->id ?? '-'),
+
+                    Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->label('グループ名'),
+                ])
             ]);
     }
 

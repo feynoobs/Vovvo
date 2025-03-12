@@ -31,8 +31,28 @@ class Group extends Model
         'sequence' => 'int'
     ];
 
+    /**
+     * 指定されたグループに紐づく板の一覧の取得
+     *
+     * @return hasMany 板一覧
+     */
     public function boards(): hasMany
     {
         return $this->hasMany(Board::class);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return integer
+     */
+    public static function getNextSequence() : int
+    {
+        $last = self
+            ::withTrashed()
+            ->max('sequence');
+        ++$last;
+
+        return $last;
     }
 }
