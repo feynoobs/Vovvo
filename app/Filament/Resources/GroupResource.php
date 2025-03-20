@@ -33,6 +33,11 @@ class GroupResource extends Resource
                     Forms\Components\TextInput::make('name')
                     ->required()
                     ->label('グループ名'),
+
+                    Forms\Components\TextInput::make('sequence')
+                    ->required()
+                    ->numeric()
+                    ->label('並び順'),
                 ])
             ]);
     }
@@ -43,7 +48,8 @@ class GroupResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->label('ID')->sortable(),
-                TextColumn::make('name')->label('グループ名')->sortable()->searchable(),
+                TextColumn::make('name')->label('グループ名'),
+                TextColumn::make('sequence')->label('並び順')->sortable(),
                 TextColumn::make('created_at')->label('作成日時')->dateTime('Y年m月d日 H:i:s'),
             ])
             ->filters([
@@ -51,12 +57,14 @@ class GroupResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('sequence', 'asc');
     }
 
     public static function getRelations(): array

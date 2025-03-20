@@ -42,7 +42,7 @@ class Group extends Model
     }
 
     /**
-     * Undocumented function
+     * シーケンス(表示順)の最大値を返す
      *
      * @return integer
      */
