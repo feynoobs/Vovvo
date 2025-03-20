@@ -22,7 +22,6 @@ class GroupResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $seq = Group::getLastSequence();
         return $form
             ->schema([
                 Forms\Components\Grid::make(1)
