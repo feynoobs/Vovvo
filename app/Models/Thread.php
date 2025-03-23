@@ -33,4 +33,13 @@ class Thread extends Model
         'sequence' => 'int'
     ];
 
+    /**
+     * 指定されたグループに紐づく板の一覧の取得
+     *
+     * @return hasMany 板一覧
+     */
+    public function Responses(): hasMany
+    {
+        return $this->hasMany(Response::class);
+    }
 }

@@ -44,7 +44,7 @@ class Group extends Model
     /**
      * シーケンス(表示順)の最大値を返す
      *
-     * @return integer
+     * @return integer シーケンスの最終値
      */
     public static function getNextSequence() : int
     {
@@ -55,4 +55,5 @@ class Group extends Model
 
         return $last;
     }
+
 }
