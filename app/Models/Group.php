@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use \Illuminate\Database\Eloquent\Relations\hasMany;
+use Illuminate\Database\Eloquent\Relations\hasMany;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Group extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasRelationships;
 
     /**
      * The attributes that are mass assignable.
@@ -39,6 +41,11 @@ class Group extends Model
     public function boards(): hasMany
     {
         return $this->hasMany(Board::class);
+    }
+
+    public function responses(): HasManyDeep
+    {
+        return $this->HasManyDeep(Response::class, [Board::class, Thread::class]);
     }
 
     /**

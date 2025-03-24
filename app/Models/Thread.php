@@ -38,7 +38,7 @@ class Thread extends Model
      *
      * @return hasMany 板一覧
      */
-    public function Responses(): hasMany
+    public function responses(): hasMany
     {
         return $this->hasMany(Response::class);
     }

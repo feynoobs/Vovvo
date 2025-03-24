@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use Filament\Widgets\ChartWidget;
+use App\Models\Group;
 
 class GroupAccess extends ChartWidget
 {
@@ -10,6 +11,8 @@ class GroupAccess extends ChartWidget
 
     protected function getData(): array
     {
+
+        $access = Group::withCount(['responses'])->get();
         return [
             //
         ];
