@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \Illuminate\Database\Eloquent\Relations\HasMany;
+use \Illuminate\Database\Eloquent\Relations\hasManyThrough;
 
 class Board extends Model
 {
@@ -36,5 +37,10 @@ class Board extends Model
     public function threads(): HasMany
     {
         return $this->hasMany(Thread::class);
+    }
+
+    public function responses(): hasManyThrough
+    {
+        return $this->hasManyThrough(Response::class, Thread::class);
     }
 }

@@ -7,7 +7,9 @@ use App\Models\Group;
 
 class GroupAccess extends ChartWidget
 {
-    protected static ?string $heading = 'Chart';
+    protected static ?string $heading = 'グループ毎投稿数';
+    protected static ?int $sort = 1;
+    protected int|string|array $columnSpan = 12;
 
     protected function getData(): array
     {
@@ -26,5 +28,10 @@ class GroupAccess extends ChartWidget
     protected function getType(): string
     {
         return 'bar';
+    }
+
+    protected function getView(): string
+    {
+        return 'filament.widgets.my-custom-widget'; // カスタム Blade テンプレートを指定
     }
 }
