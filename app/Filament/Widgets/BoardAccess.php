@@ -10,6 +10,7 @@ class BoardAccess extends ChartWidget
     protected static ?string $heading = 'BBS毎投稿数';
     protected static ?int $sort = 2;
     protected int|string|array $columnSpan = 12;
+    protected static ?string $maxHeight = '200px';
 
     protected function getData(): array
     {
@@ -31,16 +32,10 @@ class BoardAccess extends ChartWidget
         return 'bar';
     }
 
-    protected function getView(): string
-    {
-        return 'filament.widgets.dashboard-chart-widget';
-    }
-
     protected function getOptions(): array
     {
         return [
             'responsive' => true,
-            'maintainAspectRatio' => false,
         ];
     }
 }

@@ -10,6 +10,7 @@ class GroupAccess extends ChartWidget
     protected static ?string $heading = 'グループ毎投稿数';
     protected static ?int $sort = 1;
     protected int|string|array $columnSpan = 12;
+    protected static ?string $maxHeight = '200px';
 
     protected function getData(): array
     {
@@ -40,7 +41,6 @@ class GroupAccess extends ChartWidget
     {
         return [
             'responsive' => true,
-            'maintainAspectRatio' => false,
         ];
     }
 }
