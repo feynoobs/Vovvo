@@ -30,4 +30,17 @@ class BoardAccess extends ChartWidget
     {
         return 'bar';
     }
+
+    protected function getView(): string
+    {
+        return 'filament.widgets.dashboard-chart-widget';
+    }
+
+    protected function getOptions(): array
+    {
+        return [
+            'responsive' => true,
+            'maintainAspectRatio' => false,
+        ];
+    }
 }

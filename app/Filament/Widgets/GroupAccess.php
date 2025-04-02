@@ -14,6 +14,7 @@ class GroupAccess extends ChartWidget
     protected function getData(): array
     {
         $groups = Group::withCount(['responses'])->orderBy('id', 'asc')->get();
+
         return [
             'datasets' => [
                 [
@@ -32,6 +33,14 @@ class GroupAccess extends ChartWidget
 
     protected function getView(): string
     {
-        return 'filament.widgets.my-custom-widget'; // カスタム Blade テンプレートを指定
+        return 'filament.widgets.dashboard-chart-widget';
+    }
+
+    protected function getOptions(): array
+    {
+        return [
+            'responsive' => true,
+            'maintainAspectRatio' => false,
+        ];
     }
 }
