@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('boards', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('group_id');
-            $table->string('name');
-            $table->unsignedBigInteger('sequence');
-            $table->softDeletes();
+            $table->unsignedBigInteger('group_id')->comment('グループID');
+            $table->string('name')->comment('板名');
+            $table->unsignedBigInteger('sequence')->comment('並び順');
+            $table->softDeletes()->index();
             $table->timestamps();
+
+            $table->comment('板テーブル');
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
         });
     }
 

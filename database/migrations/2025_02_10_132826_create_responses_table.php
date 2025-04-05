@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('responses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('thread_id');
-            $table->string('name')->nullable();
-            $table->string('email')->nullable();
-            $table->string('uid')->nullable();
-            $table->string('ip');
-            $table->text('message')->nullable();
-            $table->softDeletes();
+            $table->unsignedBigInteger('thread_id')->comment('スレッドID');
+            $table->string('name')->nullable()->comment('投稿者の名前');
+            $table->string('email')->nullable()->comment('投稿者のメアド');
+            $table->string('uid')->nullable()->comment('投稿者のID');
+            $table->string('ip')->comment('投稿者のIP Address');
+            $table->text('message')->comment('投稿内容');
+            $table->softDeletes()->index();
             $table->timestamps();
+
+            $table->foreign('thread_id')->references('id')->on('threads')->onDelete('cascade');
+            $table->comment('レステーブル');
         });
     }
 

@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedBigInteger('sequence');
-            $table->softDeletes();
+            $table->string('name')->comment('グループ名');
+            $table->unsignedBigInteger('sequence')->comment('並び順');
+            $table->softDeletes()->index();
             $table->timestamps();
+
+            $table->comment('グループテーブル');
         });
     }
 

@@ -17,7 +17,7 @@ class BoardFactory extends Factory
     public function definition(): array
     {
         return [
-            'group_id' => fake()->numberBetween(1, 4),
+            'group_id' => fake()->numberBetween(1, 8),
             'name' => fake()->realText(10),
             'sequence' => fake()->numberBetween(1, 10),
         ];

@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('threads', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('board_id');
-            $table->string('name');
-            $table->unsignedBigInteger('sequence');
-            $table->softDeletes();
+            $table->unsignedBigInteger('board_id')->comment('板iD');
+            $table->string('name')->comment('スレッド名');
+            $table->unsignedBigInteger('sequence')->comment('並び順');
+            $table->softDeletes()->index();
             $table->timestamps();
+
+            $table->foreign('board_id')->references('id')->on('boards')->onDelete('cascade');
+            $table->comment('スレッドテーブル');
         });
     }
 
