@@ -8,6 +8,14 @@
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th, td { border: 1px solid #000; padding: 4px; text-align: left; }
     </style>
+    <style>
+        @font-face{
+            font-family: ipaexg;
+            font-style: normal;
+            font-weight: normal;
+            src:url('{{ storage_path('fonts/ipaexg.ttf')}}');
+        }
+    </style>
 </head>
 <body>
     <h2>グループ一覧</h2>
