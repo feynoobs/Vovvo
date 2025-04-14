@@ -20,6 +20,7 @@ class ResponseResource extends Resource
     protected static ?string $navigationLabel = 'レス';
     protected static ?string $modelLabel = 'レス';
 
+    protected static ?int $navigationSort = 4;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
