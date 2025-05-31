@@ -34,6 +34,11 @@ class Board extends Model
         'sequence' => 'int'
     ];
 
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
     public function threads(): HasMany
     {
         return $this->hasMany(Thread::class);
