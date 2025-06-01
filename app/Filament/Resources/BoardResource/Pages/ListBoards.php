@@ -9,6 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListBoards extends ListRecords
 {
     protected static string $resource = BoardResource::class;
+    protected static string $view = 'filament.resources.boards.list-with-spinner';
 
     protected function getHeaderActions(): array
     {
