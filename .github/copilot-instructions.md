@@ -1,151 +1,151 @@
-# Project Guidelines – Vovvo (Laravel 12 + React Learning)
+# プロジェクトガイドライン – Vovvo (Laravel 12 + React学習用)
 
-## Code Style
+## コードスタイル
 
-**PHP (8.2+)**: Use explicit return types, strong typing, and PSR-4 namespaces.
+**PHP (8.2+)**: 明示的な戻り値型、強い型付け、PSR-4 名前空間を使用する。
 - ✅ `protected function casts(): array { ... }`
-- ✅ Type hints with generics: `array<string, string>`, `list<string>`
-- ✅ Modern PHPDoc with `@use` for generics (see [User.php](../app/Models/User.php))
+- ✅ ジェネリクス付きの型ヒント: `array<string, string>`, `list<string>`
+- ✅ ジェネリクス用の最新PHPDoc `@use` ([User.php](../app/Models/User.php) を参照)
 
-**Formatting**: PSR-2 style with 4-space indentation. Blade templates use `{{ }}` for output.
+**フォーマット**: PSR-2 スタイル、4スペース インデント。Blade テンプレートは `{{ }}` で出力。
 
-**Laravel Conventions**:
-- Models in `app/Models/` (Eloquent ORM, use `HasFactory` trait for testing)
-- Controllers in `app/Http/Controllers/` (inherit from base `Controller`)
-- Routes in `routes/web.php` (HTTP), `routes/api.php` (future APIs)
-- Service providers in `app/Providers/` for dependency registration
+**Laravel慣例**:
+- モデル: `app/Models/` (Eloquent ORM、テスト用に `HasFactory` トレイトを使用)
+- コントローラ: `app/Http/Controllers/` (基本 `Controller` クラスから継承)
+- ルート: `routes/web.php` (HTTP)、`routes/api.php` (将来のAPI)
+- サービスプロバイダ: `app/Providers/` で依存関係を登録
 
-**Database Naming**:
-- Tables: lowercase plural (`users`, `posts`, `comments`)
-- Columns: snake_case (`email_verified_at`, `user_id`, `remember_token`)
-- ForeignKeys: `{table_singular}_id` (e.g., `user_id` references `users` table)
+**データベース命名規則**:
+- テーブル: 小文字複数形 (`users`, `posts`, `comments`)
+- カラム: スネークケース (`email_verified_at`, `user_id`, `remember_token`)
+- 外部キー: `{テーブル単数形}_id` (例: `user_id` は `users` テーブルを参照)
 
-**Testing**:
-- Unit tests: `tests/Unit/` (isolated logic, extend `PHPUnit\Framework\TestCase`)
-- Feature tests: `tests/Feature/` (HTTP/integration, extend `Tests\TestCase`)
-- Use Laravel factories (see [UserFactory.php](../database/factories/UserFactory.php)) for seeding test data
+**テスト**:
+- ユニットテスト: `tests/Unit/` (独立したロジック、`PHPUnit\Framework\TestCase` を拡張)
+- フィーチャテスト: `tests/Feature/` (HTTP/統合テスト、`Tests\TestCase` を拡張)
+- Laravelファクトリを使用 ([UserFactory.php](../database/factories/UserFactory.php) を参照) してテストデータをシード
 
-## Architecture
+## アーキテクチャ
 
-**Current State**: Fresh Laravel 12 scaffold. No service layer yet; Eloquent models handle data.
+**現在の状態**: 新規 Laravel 12 スカッフォルド。サービスレイヤーなし。Eloquent モデルがデータを処理。
 
-**Recommended Patterns**:
-1. **Models** (`app/Models/`): Define database relationships and scopes
-2. **Controllers** (`app/Http/Controllers/`): Handle request logic, delegate to services or models
-3. **Services** (`app/Services/`, if needed): Extract complex business logic
-4. **Middleware** (`app/Http/Middleware/`, if needed): Cross-cutting concerns
-5. **Resources** (`app/Http/Resources/`, for APIs): Format model responses
+**推奨パターン**:
+1. **モデル** (`app/Models/`): データベース関係とスコープを定義
+2. **コントローラ** (`app/Http/Controllers/`): リクエスト処理、サービスまたはモデルに委譲
+3. **サービス** (`app/Services/` 必要に応じて): 複雑なビジネスロジックを抽出
+4. **ミドルウェア** (`app/Http/Middleware/` 必要に応じて): 横断的処理
+5. **リソース** (`app/Http/Resources/` API用): モデル応答のフォーマット
 
-**Data Flow**:
-- Request → Route (`routes/web.php`) → Controller → Model/Service → Response
+**データフロー**:
+- リクエスト → ルート (`routes/web.php`) → コントローラ → モデル/サービス → レスポンス
 
-**State Management**: 
-- Backend: Session via database (configured in [.env](../.env): `SESSION_DRIVER=database`)
-- Frontend: Vite + Tailwind, no JS framework yet (prepare for React/Vue integration)
+**状態管理**: 
+- バックエンド: データベース経由のセッション ([.env](../.env) で設定: `SESSION_DRIVER=database`)
+- フロントエンド: Vite + Tailwind、JS フレームワークなし (React/Vue統合に備える)
 
-## Build and Test
+## ビルドとテスト
 
-**Setup**:
+**セットアップ**:
 ```bash
-composer setup     # One-time: install, generate key, migrate, npm install, build
+composer setup     # 1回限り: install、key生成、migrate、npm install、build
 ```
 
-**Development**:
+**開発**:
 ```bash
-composer dev       # Runs concurrently: Laravel server, queue listener, logs, Vite HMR
-npm run dev        # Vite dev server (HMR on port 5173, mapped to app via plugin)
-npm run build      # Production bundle (Vite + Tailwind)
+composer dev       # 同時実行: Laravel server、queue listener、logs、Vite HMR
+npm run dev        # Vite dev server (HMR ポート 5173、プラグイン経由でマッピング)
+npm run build      # 本番バンドル (Vite + Tailwind)
 ```
 
-**Testing**:
+**テスト**:
 ```bash
-composer test      # Clear config cache + run PHPUnit (Unit + Feature suites)
-php artisan test   # Alternative: run tests directly
+composer test      # config キャッシュをクリア + PHPUnit実行 (Unit + Feature スイート)
+php artisan test   # 代替: テストを直接実行
 ```
 
-**Database**:
-- Dev: SQLite (`.env: DB_CONNECTION=sqlite`)
-- Test: Separate `testing` database (isolated via [phpunit.xml](../phpunit.xml))
-- Run migrations: `php artisan migrate` (use `--seed` to populate seeders)
+**データベース**:
+- 開発: SQLite (`.env: DB_CONNECTION=sqlite`)
+- テスト: 別の `testing` データベース ([phpunit.xml](../phpunit.xml) で分離)
+- マイグレーション実行: `php artisan migrate` (`--seed` でシーダーを実行)
 
-**Other Useful Commands**:
+**その他の便利なコマンド**:
 ```bash
-php artisan tinker                     # REPL for testing models/logic
-php artisan make:model ModelName       # Generate model + migration
-php artisan make:controller CtrlName   # Generate controller
-php artisan make:test FeatureTestName # Generate test
+php artisan tinker                     # モデル/ロジック テスト用REPL
+php artisan make:model ModelName       # モデル + マイグレーション生成
+php artisan make:controller CtrlName   # コントローラ生成
+php artisan make:test FeatureTestName # テスト生成
 ```
 
-## Project Conventions
+## プロジェクト慣例
 
-**Imports & Laravel Helpers**:
-- Import specific facades: `use Illuminate\Support\Facades\DB;` (not global helpers)
-- Use `DB::` for raw queries only; prefer Eloquent models
-- Session: `session('key')` or `request()->session()->get('key')`
+**インポートと Laravel ヘルパー**:
+- 特定のファサードをインポート: `use Illuminate\Support\Facades\DB;` (グローバルヘルパーではなく)
+- 生クエリにのみ `DB::` を使用、Eloquent モデルを推奨
+- セッション: `session('key')` または `request()->session()->get('key')`
 
-**Error Handling**:
-- Laravel exceptions extend `\Exception` (caught by ExceptionHandler)
-- Validation: Use `Request::validate()` to throw `ValidationException` automatically
+**エラーハンドリング**:
+- Laravel 例外は `\Exception` を拡張 (ExceptionHandler でキャッチ)
+- バリデーション: `Request::validate()` を使用して自動的に `ValidationException` をスロー
 
-**Environment Variables** ([.env](../.env)):
-- `APP_ENV=local`, `APP_DEBUG=true` (dev); set to `production`, `false` for prod
-- Database: MySQL in production (config ready, update `DB_*` vars)
-- Queue: Set to `database` or `redis` if async tasks needed
+**環境変数** ([.env](../.env)):
+- `APP_ENV=local`, `APP_DEBUG=true` (開発); 本番は `production`, `false`
+- データベース: 本番環境は MySQL (設定準備済み、`DB_*` 変数を更新)
+- キュー: 非同期タスクが必要な場合は `database` または `redis` に設定
 
-**Frontend Integration**:
-- Entry: [resources/js/app.js](../resources/js/app.js) (imports bootstrap)
-- Axios pre-configured with `X-Requested-With` header in [bootstrap.js](../resources/js/bootstrap.js)
-- Tailwind scans [resources/views/](../resources/views/), [resources/js/](../resources/js/) for classes
-- Use `@vite('resources/css/app.css')` in Blade to load compiled assets
+**フロントエンド統合**:
+- エントリー: [resources/js/app.js](../resources/js/app.js) (bootstrap をインポート)
+- Axios は [bootstrap.js](../resources/js/bootstrap.js) で `X-Requested-With` ヘッダー事前設定済み
+- Tailwind は [resources/views/](../resources/views/), [resources/js/](../resources/js/) のクラスをスキャン
+- Blade で `@vite('resources/css/app.css')` を使用してコンパイル済みアセットを読み込み
 
-## Integration Points
+## 統合ポイント
 
-**Database Drivers**:
-- Eloquent ORM for queries (models auto-cast types via `protected $casts`)
-- Built-in query builder for complex conditions
+**データベースドライバ**:
+- クエリ用 Eloquent ORM (`protected $casts` で型の自動キャスト)
+- 複雑な条件用の組み込みクエリビルダ
 
-**Authentication** (built-in):
-- User model at [app/Models/User.php](../app/Models/User.php)
-- Auth middleware available; routes can use `middleware('auth')`
-- Password reset tokens stored in `password_reset_tokens` table
+**認証** (組み込み):
+- ユーザーモデル: [app/Models/User.php](../app/Models/User.php)
+- 認証ミドルウェア利用可、ルートで `middleware('auth')` 使用可
+- パスワードリセットトークンは `password_reset_tokens` テーブルに保存
 
-**Job Queue** (if async tasks needed):
-- Configured to `database` driver; jobs table in migrations
-- Dispatch: `YourJob::dispatch()` in controllers
-- Listen: `php artisan queue:listen` (part of dev server)
+**ジョブキュー** (非同期タスクが必要な場合):
+- `database` ドライバで設定、マイグレーションにジョブテーブル
+- ディスパッチ: コントローラで `YourJob::dispatch()`
+- リッスン: `php artisan queue:listen` (dev server の一部)
 
-**Mailing** (if needed):
-- Configure in [config/mail.php](../config/mail.php)
-- Send via `Mail::send()` or Mail job classes
+**メール** (必要に応じて):
+- [config/mail.php](../config/mail.php) で設定
+- `Mail::send()` または Mail ジョブクラス経由で送信
 
-**Frontend Framework** (future):
-- Vite plugin ready for Vue 3 or React
-- Install package: `npm install react` + `npm install @vitejs/plugin-react`
-- Update [vite.config.js](../vite.config.js) with React plugin, create `.jsx` components
-- Example: `resources/js/components/Counter.jsx` → import in Blade
+**フロントエンドフレームワーク** (将来):
+- Vite プラグイン (Vue 3 または React 対応)
+- パッケージをインストール: `npm install react` + `npm install @vitejs/plugin-react`
+- [vite.config.js](../vite.config.js) に React プラグインを追加、`.jsx` コンポーネント作成
+- 例: `resources/js/components/Counter.jsx` → Blade にインポート
 
-## Security
+## セキュリティ
 
-**CSRF Protection**: Automatically enabled on forms; include `@csrf` in Blade forms or send `X-CSRF-TOKEN` header from JS.
+**CSRF保護**: フォームで自動有効。Blade フォームに `@csrf` を含めるか、JS から `X-CSRF-TOKEN` ヘッダーを送信。
 
-**Sensitive Areas**:
-- Database credentials: Use `.env` (never commit `.env`, only `.env.example`)
-- API authentication: Use `auth:sanctum` middleware once Sanctum is installed
-- User input: Always validate in controllers or use form requests
+**機密エリア**:
+- データベース認証情報: `.env` を使用 (`.env.example` のみコミット、`.env` はコミットしない)
+- API認証: Sanctum インストール後に `auth:sanctum` ミドルウェアを使用
+- ユーザー入力: コントローラまたはフォームリクエストで常にバリデーション
 
-**Password Security**:
-- Hashing: Bcrypt (rounds configurable: `BCRYPT_ROUNDS=12` in [.env](../.env))
-- Never store plain text; always hash before saving
+**パスワードセキュリティ**:
+- ハッシング: Bcrypt (ラウンド数設定可: [.env](../.env) で `BCRYPT_ROUNDS=12`)
+- 平文保存禁止、常に保存前にハッシュ
 
-## Quick Reference
+## クイックリファレンス
 
-| Task | File/Command |
-|------|--------------|
-| Add a model | `php artisan make:model Post --migration` (auto-creates migration) |
-| Add a controller | `php artisan make:controller PostController --resource` |
-| Write a test | `php artisan make:test Feature/PostTest` → add assertions |
-| Create migration | `php artisan make:migration create_posts_table` |
-| Run migrations | `php artisan migrate` |
-| Seed database | `php artisan db:seed` or `php artisan migrate --seed` |
-| Check routes | `php artisan route:list` |
-| Debug request | `dd($request->all())` or use Tinker |
+| タスク | ファイル/コマンド |
+|--------|-----------------|
+| モデルを追加 | `php artisan make:model Post --migration` (マイグレーションも自動生成) |
+| コントローラを追加 | `php artisan make:controller PostController --resource` |
+| テストを書く | `php artisan make:test Feature/PostTest` → アサーションを追加 |
+| マイグレーション作成 | `php artisan make:migration create_posts_table` |
+| マイグレーション実行 | `php artisan migrate` |
+| データベースをシード | `php artisan db:seed` または `php artisan migrate --seed` |
+| ルート確認 | `php artisan route:list` |
+| リクエストをデバッグ | `dd($request->all())` または Tinker 使用 |

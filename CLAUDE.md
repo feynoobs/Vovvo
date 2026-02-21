@@ -1,33 +1,33 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+このファイルは、このリポジトリでコードを操作する際に Claude Code (claude.ai/code) に指針を提供します。
 
-## Project
+## プロジェクト
 
-Vovvo is a Laravel 12 + React learning scaffold (React学習用). It is a fresh foundation with no custom business logic yet — only the default User model, authentication infrastructure, and a single welcome route exist.
+Vovvo は Laravel 12 + React 学習用スカッフォルドです。カスタムビジネスロジックはまだなく、デフォルトの User モデル、認証インフラストラクチャ、およびシングルウェルカムルートのみが存在する新規プロジェクトです。
 
-## Commands
+## コマンド
 
 ```bash
-# One-time setup
-composer setup        # install deps, generate key, migrate, npm install, npm build
+# 1回限りのセットアップ
+composer setup        # 依存関係インストール、キー生成、マイグレーション、npm install、npm build
 
-# Development (runs concurrently: Laravel server, queue listener, log viewer, Vite HMR)
+# 開発 (同時実行: Laravel server、queue listener、log viewer、Vite HMR)
 composer dev
 
-# Frontend only
-npm run dev           # Vite HMR on port 5173
-npm run build         # Production bundle
+# フロントエンドのみ
+npm run dev           # Vite HMR ポート 5173
+npm run build         # 本番バンドル
 
-# Testing
-composer test         # clears config cache, then runs full PHPUnit suite
-php artisan test --filter=TestName   # run a single test by name/class
+# テスト
+composer test         # config キャッシュをクリア、PHPUnit スイート全体を実行
+php artisan test --filter=TestName   # 名前またはクラスでシングルテストを実行
 
-# Database
+# データベース
 php artisan migrate
 php artisan migrate --seed
 
-# Code generation
+# コード生成
 php artisan make:model Post --migration
 php artisan make:controller PostController --resource
 php artisan make:test Feature/PostTest
@@ -37,46 +37,46 @@ php artisan make:test Feature/PostTest
 ./vendor/bin/sail artisan <command>
 ```
 
-## Architecture
+## アーキテクチャ
 
-**Request flow:** Route (`routes/web.php` or `routes/api.php`) → Controller → Model / Service → Response
+**リクエストフロー:** ルート (`routes/web.php` または `routes/api.php`) → コントローラ → モデル / サービス → レスポンス
 
-**Layer conventions:**
-- `app/Models/` — Eloquent models with relationships, scopes, and type casts
-- `app/Http/Controllers/` — thin request handlers; delegate complex logic to services
-- `app/Services/` — extract business logic here when controllers grow complex
-- `app/Http/Middleware/` — cross-cutting concerns
-- `app/Http/Resources/` — API response formatting (when building JSON APIs)
-- `app/Providers/AppServiceProvider` — service container bindings and boot logic
+**レイヤー規約:**
+- `app/Models/` — Eloquent モデル (リレーションシップ、スコープ、型キャスト)
+- `app/Http/Controllers/` — シンリクエストハンドラー、複雑なロジックはサービスに委譲
+- `app/Services/` — コントローラが大きくなった時、ビジネスロジックをここに抽出
+- `app/Http/Middleware/` — 横断的処理
+- `app/Http/Resources/` — API レスポンスフォーマッティング (JSON API 構築時)
+- `app/Providers/AppServiceProvider` — サービスコンテナバインディングとブートロジック
 
-**Testing split:**
-- `tests/Unit/` — extend `PHPUnit\Framework\TestCase`, no framework booting
-- `tests/Feature/` — extend `Tests\TestCase`, full HTTP/DB integration
+**テスト分割:**
+- `tests/Unit/` — `PHPUnit\Framework\TestCase` を拡張、フレームワークブートなし
+- `tests/Feature/` — `Tests\TestCase` を拡張、完全な HTTP/DB 統合
 
-PHPUnit is configured in `phpunit.xml` to use an in-memory `testing` database, `array` cache/session drivers, and `sync` queue so tests run without side effects.
+PHPUnit は `phpunit.xml` で設定され、インメモリの `testing` データベース、`array` キャッシュ/セッションドライバ、`sync` キューを使用するため、テストは副作用なく実行されます。
 
-## Frontend
+## フロントエンド
 
-Assets are managed by Vite. Entry points: `resources/css/app.css` (Tailwind v4) and `resources/js/app.js` (Axios with CSRF headers pre-configured).
+アセットは Vite で管理されます。エントリーポイント: `resources/css/app.css` (Tailwind v4) および `resources/js/app.js` (CSRF ヘッダー事前設定済み Axios)。
 
-In Blade templates, load compiled assets with `@vite(['resources/css/app.css', 'resources/js/app.js'])`.
+Blade テンプレートでコンパイル済みアセットを読み込む場合は `@vite(['resources/css/app.css', 'resources/js/app.js'])` を使用します。
 
-To add React:
+React を追加する場合:
 ```bash
 npm install react react-dom @vitejs/plugin-react
 ```
-Then add the React plugin to `vite.config.js` and create `.jsx` components under `resources/js/components/`.
+その後、`vite.config.js` に React プラグインを追加し、`resources/js/components/` の下に `.jsx` コンポーネントを作成します。
 
-## Key Conventions
+## 主要な規約
 
-**PHP:** Explicit return types, strong generics (`array<string, string>`), PSR-4 namespaces. Use `protected function casts(): array` syntax (not `$casts` property).
+**PHP:** 明示的な戻り値型、強力なジェネリクス (`array<string, string>`)、PSR-4 名前空間。`protected function casts(): array` 構文を使用 (`$casts` プロパティではなく)。
 
-**Database naming:** Tables lowercase plural (`posts`), columns snake_case (`created_at`), foreign keys `{singular}_id` (`user_id`).
+**データベース命名:** テーブルは小文字複数形 (`posts`)、カラムはスネークケース (`created_at`)、外部キーは `{単数形}_id` (`user_id`)。
 
-**Imports:** Use specific facade imports (`use Illuminate\Support\Facades\DB;`); prefer Eloquent over raw queries.
+**インポート:** 特定のファサードインポートを使用 (`use Illuminate\Support\Facades\DB;`); 生クエリより Eloquent を推奨。
 
-**Validation:** Use `$request->validate([...])` in controllers — Laravel throws `ValidationException` automatically.
+**バリデーション:** コントローラで `$request->validate([...])` を使用 — Laravel は自動的に `ValidationException` をスロー。
 
-**CSRF:** Include `@csrf` in all Blade forms. JS requests use the Axios `X-CSRF-TOKEN` header already configured in `bootstrap.js`.
+**CSRF:** すべての Blade フォームに `@csrf` を含める。JS リクエストは `bootstrap.js` で既に設定済みの Axios `X-CSRF-TOKEN` ヘッダーを使用。
 
-**Environment:** Dev uses SQLite (`DB_CONNECTION=sqlite`). Docker Sail provides MySQL 8.4, Redis, Meilisearch, Mailpit, and MinIO for a production-like environment.
+**環境:** 開発は SQLite を使用 (`DB_CONNECTION=sqlite`)。Docker Sail は MySQL 8.4、Redis、Meilisearch、Mailpit、MinIO を提供し、本番のような環境を実現します。
