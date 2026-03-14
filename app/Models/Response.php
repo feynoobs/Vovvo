@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Response extends Model
 {
@@ -37,7 +38,7 @@ class Response extends Model
     /**
      * Get the thread that owns the response.
      */
-    public function thread()
+    public function thread(): BelongsTo
     {
         return $this->belongsTo(Thread::class);
     }

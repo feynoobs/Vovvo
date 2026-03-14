@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Board extends Model
 {
@@ -37,7 +39,7 @@ class Board extends Model
     /**
      * Get the group that owns the board.
      */
-    public function group()
+    public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);
     }
@@ -45,7 +47,7 @@ class Board extends Model
     /**
      * Get the threads for the board.
      */
-    public function threads()
+    public function threads(): HasMany
     {
         return $this->hasMany(Thread::class);
     }

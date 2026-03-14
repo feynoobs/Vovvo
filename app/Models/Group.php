@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Group extends Model
 {
@@ -35,7 +36,7 @@ class Group extends Model
     /**
      * Get the boards for the group.
      */
-    public function boards()
+    public function boards(): HasMany
     {
         return $this->hasMany(Board::class);
     }
